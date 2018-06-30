@@ -1,0 +1,11 @@
+body {
+	font-family: Arial, Helvetica, "Trebuchet MS", sans-serif;
+}
+
+form > .form-row {
+	margin-bottom: 10px;
+}
+
+form > .form-row > .header {
+	font-weight: bold;
+}
