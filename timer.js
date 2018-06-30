@@ -50,6 +50,7 @@ start = function() {
 		timerWindow.moveTo(0,0);
 		timerWindow.resizeTo(screen.availWidth, screen.availHeight);
 	}
+
 	timerWindow.focus();
 }
 
@@ -57,7 +58,3 @@ $( document ).ready(function() {
 	localStorage = window.localStorage;
 	restoreDefaultOptions();
 });
-
-$( window ).unload(function() {
-	timerWindow.close();
-})
