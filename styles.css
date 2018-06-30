@@ -2,10 +2,24 @@ body {
 	font-family: Arial, Helvetica, "Trebuchet MS", sans-serif;
 }
 
+.centre-text {
+	text-align: center;
+}
+
 form > .form-row {
 	margin-bottom: 10px;
 }
 
 form > .form-row > .header {
 	font-weight: bold;
+}
+
+.minor {
+	font-size: 50px;
+}
+
+#time {
+	width: 100%;
+	font-size: 250px;
+	margin: auto auto;
 }

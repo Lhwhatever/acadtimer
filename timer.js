@@ -1,5 +1,6 @@
 var localStorage;
 var localStorageItemKey = 'acadtimeroptions';
+var timerWindow;
 
 getOptions = function() {
 	return {
@@ -10,7 +11,8 @@ getOptions = function() {
 		'playMusic': $('input[name=play-music]').prop('checked'),
 		'counting': $('input[name=counting]:checked').val(),
 		'alertLast15': $('input[name=alert15]').prop('checked'),
-		'recolourLast15': $('input[name=recolour15]').prop('checked')
+		'recolourLast15': $('input[name=recolour15]').prop('checked'),
+		'showSec': $('input[name=showsec]').prop('checked')
 	}
 }
 
@@ -27,6 +29,7 @@ applyOptions = function(options) {
 	if(options.counting) $('input[name=counting]').val([options.counting]);
 	if(options.alertLast15 !== null) $('input[name=alert15]').prop('checked', options.alertLast15);
 	if(options.recolourLast15 !== null) $('input[name=recolour15]').prop('checked', options.recolourLast15);
+	if(options.showSec !== null) $('input[name=showsec]').prop('checked', options.showsec);
 }
 
 restoreDefaultOptions = function() {
@@ -38,8 +41,23 @@ resetDefaultOptions = function() {
 	localStorage.setItem(localStorageItemKey, '{"duration":"60","countdown":"-1","text1":"","text2":"","playMusic":true,"counting":"up","alertLast15":true,"recolourLast15":false}');
 }
 
+start = function() {
+	$("#options").prop('hidden', true);
+	$("#controls").prop('hidden', false);
+
+	timerWindow = window.open('timer.html', 'timerWindow', '_open');
+	if (timerWindow.outerWidth < screen.availWidth || timerWindow.outerHeight < screen.availHeight) {
+		timerWindow.moveTo(0,0);
+		timerWindow.resizeTo(screen.availWidth, screen.availHeight);
+	}
+	timerWindow.focus();
+}
+
 $( document ).ready(function() {
 	localStorage = window.localStorage;
-
 	restoreDefaultOptions();
 });
+
+$( window ).unload(function() {
+	timerWindow.close();
+})

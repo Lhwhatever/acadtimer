@@ -55,13 +55,17 @@
 				<input type="checkbox" checked name="alert15"> Alert
 				<input type="checkbox" name="recolour15"> Change timer colour
 			</div>
+			<div class="form-row">
+				<span class="header">Seconds:</span>
+				<input type="checkbox" checked name="showsec"> Show
+			</div>
 		</form>
-		<button>Start</button>
+		<button onclick="start()">Start</button>
 		<button onclick="setDefaultOptions()">Save as Default Settings</button>
 		<button onclick="restoreDefaultOptions()">Restore Default Settings</button>
 		<button onclick="resetDefaultOptions()">Reset Default Settings</button>
 	</div>
-	<div id="controls" style="margin: auto; width: 10%">
+	<div id="controls" class="centre-text" style="padding-top: 50px" hidden>
 		<button>Play (Spacebar)</button> <button>Pause (Spacebar)</button> <button>Stop (S)</button>
 	</div>
 </body>
