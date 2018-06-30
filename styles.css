@@ -21,5 +21,8 @@ form > .form-row > .header {
 #time {
 	width: 100%;
 	font-size: 250px;
-	margin: auto auto;
+}
+
+#timer-container {
+	width: 80%;
 }
