@@ -58,3 +58,7 @@ $( document ).ready(function() {
 	localStorage = window.localStorage;
 	restoreDefaultOptions();
 });
+
+$( window ).on('unload', function() {
+	if(timerWindow !== null) timerWindow.close();
+})
