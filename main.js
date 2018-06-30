@@ -6,8 +6,8 @@ getOptions = function() {
 	return {
 		'duration': $('select[name=duration]').val(),
 		'countdown': $('select[name=countdown-duration').val(),
-		'text1': $('input[name=text1]').val(),
-		'text2': $('input[name=text2]').val(),
+		'text1': $('input[name=text1]').val() || null,
+		'text2': $('input[name=text2]').val() || null,
 		'playMusic': $('input[name=play-music]').prop('checked'),
 		'counting': $('input[name=counting]:checked').val(),
 		'alertLast15': $('input[name=alert15]').prop('checked'),
@@ -38,14 +38,25 @@ restoreDefaultOptions = function() {
 }
 
 resetDefaultOptions = function() {
-	localStorage.setItem(localStorageItemKey, '{"duration":"60","countdown":"-1","text1":"","text2":"","playMusic":true,"counting":"up","alertLast15":true,"recolourLast15":false}');
+	localStorage.setItem(localStorageItemKey, '{"duration":"60","countdown":"-1","playMusic":true,"counting":"up","alertLast15":true,"recolourLast15":false}');
 }
 
 start = function() {
 	$("#options").prop('hidden', true);
 	$("#controls").prop('hidden', false);
 
-	timerWindow = window.open('timer.html', 'timerWindow', '_open');
+	var options = getOptions();
+	var params = {
+		'duration': options.duration,
+		'countdown': options.countdown,
+		'count': options.counting
+	};
+
+	if(options.text1) params.text1 = options.text1;
+	if(options.text2) params.text2 = options.text2;
+	if(options.showSec) params.showSec = true;
+
+	timerWindow = window.open('timer.html?' + $.param(params), 'timerWindow', '_open');
 	if (timerWindow.outerWidth < screen.availWidth || timerWindow.outerHeight < screen.availHeight) {
 		timerWindow.moveTo(0,0);
 		timerWindow.resizeTo(screen.availWidth, screen.availHeight);

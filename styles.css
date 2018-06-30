@@ -26,3 +26,7 @@ form > .form-row > .header {
 #timer-container {
 	width: 80%;
 }
+
+.neg {
+	color: #6f6f6f;
+}
