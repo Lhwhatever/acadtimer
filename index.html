@@ -6,7 +6,7 @@
 </head>
 
 <body>
-	<div style="margin: 40px">
+	<div id="options" style="margin: 40px">
 		<h1>Options</h1>
 		<form>
 			<div class="form-row">
@@ -43,12 +43,12 @@
 			</div>
 			<div class="form-row">
 				<span class="header">Music:</span>
-				<input type="checkbox" checked name="music"> Play
+				<input type="checkbox" checked name="play-music"> Play
 			</div>
 			<div class="form-row">
 				<span class="header">Counting:</span>
-				<input type="radio" checked name="counting"> Count-up
-				<input type="radio" name="counting"> Count-down
+				<input type="radio" checked name="counting" value="up"> Count-up
+				<input type="radio" name="counting" value="down"> Count-down
 			</div>
 			<div class="form-row">
 				<span class="header">Last 15 min:</span>
@@ -57,10 +57,16 @@
 			</div>
 		</form>
 		<button>Start</button>
-		<button>Save as Default Settings</button>
-		<button>Restore Default Settings</button>
-		<button>Reset Default Settings</button>
+		<button onclick="setDefaultOptions()">Save as Default Settings</button>
+		<button onclick="restoreDefaultOptions()">Restore Default Settings</button>
+		<button onclick="resetDefaultOptions()">Reset Default Settings</button>
+	</div>
+	<div id="controls" style="margin: auto; width: 10%">
+		<button>Play (Spacebar)</button> <button>Pause (Spacebar)</button> <button>Stop (S)</button>
 	</div>
 </body>
+
+<script src="libs/jquery-3.3.1.min.js"></script>
+<script src="timer.js"></script>
 
 </html>
