@@ -1,12 +1,17 @@
 # Timer App
 This is a small web app that acts as a custom timer with functionality to play music, and so on. Intended for use with exam revision.
 
+## Current Functionality
+1. You can set duration based on presets (1 h, 1.5 h, 2 h, 2.25 h, 3 h).
+2. You can choose whether to start the timer on a countdown, or wait for a countdown (based on presets: 3 s, 5 s, 10 s, 15 s, 30 s, 1 min, 2 min, 3 min, 5 min).
+3. You can type text to be displayed on the page of the timer.
+4. Timer controls are hidden to minimise distractions. You can operate the timer either by:
+	* Switching to the window with the timer controls.
+	* Use keyboard shortcuts (`Space` to play/pause, `S` to stop).
+5. Choose between a count-up or count-down timer.
+6. Change the background colour of the timer at the last 15 minutes.
+7. Save, restore and reset the above settings.
+
 ## Planned Functionality
-1. Ability to set durations.
-2. Ability to choose from a variety of presets.
-3. Ability to have text show up on the timer page.
-4. Timer controls are on a separate tab/window to minimise distractions; to operate the timer, you'll have to switch windows or use keyboard shortcuts.
-5. Play music together with the timer.
-6. Choose between a count-up timer or a count-down timer
-7. Alert at the last 15 minutes (play a siren, or change timer colour)
-8. Save, restore and reset settings.
+1. Play music together with the timer.
+2. Play a siren at the last minute.
