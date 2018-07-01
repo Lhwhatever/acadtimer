@@ -14,7 +14,8 @@ getOptions = function() {
 		'counting': $('input[name=counting]:checked').val(),
 		'alertLast15': $('input[name=alert15]').prop('checked'),
 		'recolourLast15': $('input[name=recolour15]').prop('checked'),
-		'showSec': $('input[name=showsec]').prop('checked')
+		'showSec': $('input[name=showsec]').prop('checked'),
+		'refreshInterval': $('input[name=refresh-interval]').val()
 	}
 }
 
@@ -32,6 +33,7 @@ applyOptions = function(options) {
 	if(options.alertLast15 !== null) $('input[name=alert15]').prop('checked', options.alertLast15);
 	if(options.recolourLast15 !== null) $('input[name=recolour15]').prop('checked', options.recolourLast15);
 	if(options.showSec !== null) $('input[name=showsec]').prop('checked', options.showsec);
+	if(options.refreshInterval) $('input[name=refresh-interval]').val(Math.max(Math.min(options.refreshInterval, 500), 10));
 }
 
 restoreDefaultOptions = function() {
@@ -42,7 +44,7 @@ restoreDefaultOptions = function() {
 resetDefaultOptions = function() {
 	localStorage.setItem(localStorageItemKey,
 		'{"duration":"60","countdown":"defer","text1":null,"text2":null,"playMusic":true,"counting":"up",\
-		"alertLast15":true,"recolourLast15":false,"showSec":true}'
+		"alertLast15":true,"recolourLast15":false,"showSec":true,"refreshInterval":200}'
 		);
 }
 
@@ -79,7 +81,8 @@ start = function() {
 	var params = {
 		'duration': options.duration,
 		'countdown': options.countdown,
-		'count': options.counting
+		'count': options.counting,
+		'refresh': options.refreshInterval
 	};
 
 	if(options.text1) params.text1 = options.text1;

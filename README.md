@@ -10,7 +10,8 @@ This is a small web app that acts as a custom timer with functionality to play m
 	* Use keyboard shortcuts (`Space` to play/pause, `S` to stop).
 5. Choose between a count-up or count-down timer.
 6. Change the background colour of the timer at the last 15 minutes.
-7. Save, restore and reset the above settings.
+7. Change the interval at which the timer window refreshes, between 10 and 500 ms (default: 200 ms).
+8. Save, restore and reset the above settings.
 
 ## Planned Functionality
 1. Play music together with the timer.

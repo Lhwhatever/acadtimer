@@ -60,6 +60,10 @@
 				<span class="header">Seconds:</span>
 				<input type="checkbox" checked name="showsec"> Show
 			</div>
+			<div class="form-row">
+				<span class="header">Refresh Interval (ms):</span>
+				<input type="number" name="refresh-interval" step="1" min="10" max="500" value="200"> (number of milliseconds between updates of the timer)
+			</div>
 		</form>
 		<button onclick="start()">Start</button>
 		<button onclick="setDefaultOptions()">Save as Default Settings</button>

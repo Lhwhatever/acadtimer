@@ -96,6 +96,7 @@ $(document).ready(function() {
 
 	showSec = getUrlParam('showSec') == null;
 	recolourLast15 = getUrlParam('recolour15') == null ? 0 : 1;
+	renderInterval = Math.min(Math.max(getUrlParam('refresh') || 200, 10), 500);
 
 	var start = parseInt(getUrlParam('countdown')) || 'defer';
 	if(!isNaN(start)) {
