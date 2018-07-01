@@ -59,6 +59,20 @@ endTimer = function() {
 	$('#time').html('Time\'s Up!');
 }
 
+setupFontSizes = function() {
+	$('#time').css({
+		'font-size': function() {
+			return Math.min(window.innerWidth * 1.46, window.innerHeight * 0.262);
+		}
+	});
+
+	$('.minor').css({
+		'font-size': function() {
+			return Math.min(window.innerWidth * 0.292, window.innerHeight * 0.0524);
+		}
+	});
+}
+
 $(document).ready(function() {
 
 	var text1 = getUrlParam('text1');
@@ -70,6 +84,7 @@ $(document).ready(function() {
 	else $('#text2').html(text2);
 
 	setup();
+	setupFontSizes();
 
 	duration = getUrlParam('duration') * 60;
 	$('#endtext').html('DURATION: ' + formatTime(duration, false));
