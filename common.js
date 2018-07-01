@@ -1,3 +1,5 @@
+roundingFunc = Math.ceil;
+
 getUrlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results==null){
@@ -23,16 +25,16 @@ setup = function() {
 }
 
 formatTime = function(seconds, showSec) {
-	seconds = Math.ceil(seconds);
+	seconds = roundingFunc(seconds);
 
 	var neg = seconds < 0;
 	if(neg) {
-		if(seconds <= 60) return seconds;
+		if(seconds >= -60) return seconds;
 
 		seconds *= -1;
-		var ss = (seconds - ss) / 60;
+		var ss = seconds % 60;
 		var mm = Math.floor(seconds / 60);
-		return '-' + mm + ':' + ss.toString.padStart(2, '0');
+		return '-' + mm + ':' + ss.toString().padStart(2, '0');
 	} else if(showSec) {
 		var ss = seconds % 60;
 		var mm = (seconds - ss) / 60 % 60;
