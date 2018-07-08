@@ -4,6 +4,8 @@ var counting;
 var showSec;
 var startTime;
 var recolourLast15;
+var alertLast15;
+var timeout15;
 
 var renderLoop;
 var renderInterval = 200;
@@ -23,33 +25,42 @@ renderTime = function(counter) {
 	$('#time').html(number);
 }
 
-yieldLoopFunction = function() {
-	if(recolourLast15 == 1) {
-		var recolourWhen = duration - 900;
-		return function() {
-			var counter = getCounter();
-			if(recolourLast15 == 1 && counter >= recolourWhen) {
-				$('body').css('background-color', '#3f0000');
-				recolourLast15++;
-			}
-			if(counter < duration) renderTime(counter);
-			else endTimer();
-		}
-	} else return function() {
-		var counter = getCounter();
-		if(counter < duration) renderTime(counter);
-		else endTimer();
+yieldLast15 = function() {
+	doRecolour = recolourLast15 ? function() {
+		$('body').css('background-color', '#3f0000');
+		recolourLast15 = false;
+	} : __;
+
+	playSiren = alertLast15 ? function() {
+		$('#siren').get(0).play();
+		alertLast15 = false;
+	} : __;
+
+	return function() {
+		doRecolour();
+		playSiren();
 	}
 }
 
+
 handlePlayPause = function() {
-	console.log('playpause');
 	if(startTime == null) { // was paused
-		console.log('play');
 		startTime = Date.now();
-		renderLoop = setInterval(yieldLoopFunction(), renderInterval);
+
+		timeTillLast15 = (duration - getCounter() - 900) * 1000;
+		if(timeTillLast15 > 0) timeout15 = setTimeout(yieldLast15(), timeTillLast15);
+
+		renderLoop = setInterval(function() {
+			var counter = getCounter();
+			if(counter < duration) renderTime(counter);
+			else endTimer();
+		}, renderInterval);
+
 	} else { // was playing
-		console.log('pause');
+		if(timeout15 !== null) {
+			clearTimeout(timeout15);
+			timeout15 = null;
+		}
 		clearInterval(renderLoop);
 		startCount += (Date.now() - startTime) / 1000;
 		startTime = null;
@@ -76,6 +87,16 @@ setupFontSizes = function() {
 	});
 }
 
+setupAudio = function() {
+	if(alertLast15) {
+		$('#siren').on('loadeddata', function() {
+			alertLast15 = true;
+		});
+		alertLast15 = null;
+		$('#siren').attr('src', '../soundeffects/siren.mp3');
+	} 
+}
+
 $(document).ready(function() {
 
 	var text1 = getUrlParam('text1');
@@ -98,8 +119,12 @@ $(document).ready(function() {
 	else throw new Exception('counting: expected up or down, received ' + counting);
 
 	showSec = getUrlParam('showSec') == null;
-	recolourLast15 = getUrlParam('recolour15') == null ? 0 : 1;
+	recolourLast15 = getUrlParam('recolour15') != null;
 	renderInterval = Math.min(Math.max(getUrlParam('refresh') || 200, 10), 500);
+
+	alertLast15 = getUrlParam('siren') !== '0';
+
+	setupAudio();
 
 	var start = parseInt(getUrlParam('countdown')) || 'defer';
 	if(!isNaN(start)) {

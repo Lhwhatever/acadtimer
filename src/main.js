@@ -6,16 +6,16 @@ var isStopped = true;
 
 getOptions = function() {
 	return {
-		'duration': $('select[name=duration]').val(),
-		'countdown': $('select[name=countdown-duration]').val(),
+		duration: $('select[name=duration]').val(),
+		countdown: $('select[name=countdown-duration]').val(),
 		'text1': $('input[name=text1]').val() || null,
 		'text2': $('input[name=text2]').val() || null,
-		'playMusic': $('input[name=play-music]').prop('checked'),
-		'counting': $('input[name=counting]:checked').val(),
-		'alertLast15': $('input[name=alert15]').prop('checked'),
-		'recolourLast15': $('input[name=recolour15]').prop('checked'),
-		'showSec': $('input[name=showsec]').prop('checked'),
-		'refreshInterval': $('input[name=refresh-interval]').val()
+		playMusic: $('input[name=play-music]').prop('checked'),
+		counting: $('input[name=counting]:checked').val(),
+		alertLast15: $('input[name=alert15]').prop('checked'),
+		recolourLast15: $('input[name=recolour15]').prop('checked'),
+		showSec: $('input[name=showsec]').prop('checked'),
+		refreshInterval: $('input[name=refresh-interval]').val()
 	}
 }
 
@@ -88,16 +88,17 @@ start = function() {
 
 	var options = getOptions();
 	var params = {
-		'duration': options.duration,
-		'countdown': options.countdown,
-		'count': options.counting,
-		'refresh': options.refreshInterval
+		duration: options.duration,
+		countdown: options.countdown,
+		count: options.counting,
+		refresh: options.refreshInterval,
 	};
 
 	if(options.text1) params.text1 = options.text1;
 	if(options.text2) params.text2 = options.text2;
 	if(!options.showSec) params.showSec = 1;
 	if(options.recolourLast15) params.recolour15 = 1;
+	if(!options.alertLast15) params.siren = 0;
 
 	timerWindow = window.open('src/timer.html?' + $.param(params), 'timerWindow', '_open');
 	if (timerWindow.outerWidth < screen.availWidth || timerWindow.outerHeight < screen.availHeight) {

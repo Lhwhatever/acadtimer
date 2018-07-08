@@ -1,5 +1,7 @@
 roundingFunc = Math.ceil;
 
+__ = function() {} // a function which does nothing
+
 getUrlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results==null){
