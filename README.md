@@ -13,6 +13,10 @@ This is a small web app that acts as a custom timer with functionality to play m
 7. Choose whether to play a siren at the last 15 minutes.
 8. Change the interval at which the timer window refreshes, between 10 and 500 ms (default: 200 ms).
 9. Save, restore and reset the above settings.
+10. Choose whether to play music together with the timer.
+	* Users have to provide their own music.
+	* Name your music `1h00min.mp3`, `1h30min.mp3`, etc.
+	* Any music named `last15.mp3` will be played in the last 15 minutes.
 
 ## Planned Functionality
-1. Play music together with the timer.
+1. Mute (and unmute) the music.

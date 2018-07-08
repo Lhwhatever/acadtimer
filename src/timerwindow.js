@@ -6,6 +6,10 @@ var startTime;
 var recolourLast15;
 var alertLast15;
 var timeout15;
+var canPlayMusic;
+
+playMusic = __;
+pauseMusic = __;
 
 var renderLoop;
 var renderInterval = 200;
@@ -39,9 +43,9 @@ yieldLast15 = function() {
 	return function() {
 		doRecolour();
 		playSiren();
+		playMusic();
 	}
 }
-
 
 handlePlayPause = function() {
 	if(startTime == null) { // was paused
@@ -56,6 +60,8 @@ handlePlayPause = function() {
 			else endTimer();
 		}, renderInterval);
 
+		playMusic();
+
 	} else { // was playing
 		if(timeout15 !== null) {
 			clearTimeout(timeout15);
@@ -64,6 +70,8 @@ handlePlayPause = function() {
 		clearInterval(renderLoop);
 		startCount += (Date.now() - startTime) / 1000;
 		startTime = null;
+
+		pauseMusic();
 	}
 }
 
@@ -92,9 +100,43 @@ setupAudio = function() {
 		$('#siren').on('loadeddata', function() {
 			alertLast15 = true;
 		});
-		alertLast15 = null;
+		alertLast15 = false;
 		$('#siren').attr('src', '../soundeffects/siren.mp3');
-	} 
+	}
+
+	if(canPlayMusic) {
+		var musicAvailable = [[__, __], [__, __]];
+
+		$('#music-last15').attr('src', '../music/last15.mp3');
+		$('#music-last15').on('loadeddata', function() {
+			musicAvailable[1] = [function() {
+				$('#music-last15').get(0).play();
+			}, function() {
+				$('#music-last15').get(0).pause();
+			}];
+		});
+
+		var minutes = Math.floor(duration / 60);
+		$('#music').attr('src', '../music/' + Math.floor(minutes / 60) + 'h' + (minutes % 60).toString().padStart(2, '0') + 'min.mp3');
+		$('#music').on('loadeddata', function() {
+			musicAvailable[0] = [function() {
+				$('#music').get(0).play();
+			}, function() {
+				$('#music').get(0).pause();
+			}];
+		});
+		
+
+		playMusic = function() {
+			if(getCounter() <= duration - 900) musicAvailable[0][0]();
+			else musicAvailable[1][0]();
+		}
+
+		pauseMusic = function() {
+			if(getCounter() <= duration - 900) musicAvailable[0][1]();
+			else musicAvailable[1][1]();
+		}
+	}
 }
 
 $(document).ready(function() {
@@ -123,6 +165,7 @@ $(document).ready(function() {
 	renderInterval = Math.min(Math.max(getUrlParam('refresh') || 200, 10), 500);
 
 	alertLast15 = getUrlParam('siren') !== '0';
+	canPlayMusic = getUrlParam('music') !== '0';
 
 	setupAudio();
 

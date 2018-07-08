@@ -99,6 +99,7 @@ start = function() {
 	if(!options.showSec) params.showSec = 1;
 	if(options.recolourLast15) params.recolour15 = 1;
 	if(!options.alertLast15) params.siren = 0;
+	if(!options.playMusic) params.music = 0;
 
 	timerWindow = window.open('src/timer.html?' + $.param(params), 'timerWindow', '_open');
 	if (timerWindow.outerWidth < screen.availWidth || timerWindow.outerHeight < screen.availHeight) {
@@ -120,6 +121,7 @@ $( document ).ready(function() {
 
 	$('#audio-test').on('loadeddata', function() {
 		$('#row-music').prop('hidden', false);
+		$('#btn-mute').prop('hidden', false);
 	});
 
 	$('#audio-test').attr('src', 'music/last15.mp3');
