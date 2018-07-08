@@ -2,7 +2,7 @@
 
 <head>
 	<title>Timer Options</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="src/styles.css">
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 				<span class="header">Text (row 2):</span>
 				<input type="text" size="60" maxlength="60" name="text2">
 			</div>
-			<div class="form-row">
+			<div class="form-row" id="row-music">
 				<span class="header">Music:</span>
 				<input type="checkbox" checked name="play-music"> Play
 			</div>
@@ -73,10 +73,11 @@
 	<div id="controls" class="centre-text" style="padding-top: 50px" hidden>
 		<button id="btn-playpause">Play (Spacebar)</button> <button id="btn-stop">Stop (S)</button>
 	</div>
+	<audio id="audio-test"></audio>
 </body>
 
 <script src="libs/jquery-3.3.1.min.js"></script>
-<script src="common.js"></script>
-<script src="main.js"></script>
+<script src="src/common.js"></script>
+<script src="src/main.js"></script>
 
 </html>

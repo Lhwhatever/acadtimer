@@ -48,20 +48,29 @@ resetDefaultOptions = function() {
 		);
 }
 
-handlePlayPause = function() {
+handlePlayPause = function(external) {
+	if(external == undefined) external = false;
 	if(isPlaying) {
-		timerWindow.postMessage('pause', '*');
-		$('#btn-playpause').html('Play (Spacebar)');
+		if(!external) timerWindow.postMessage('pause', '*');
+		$('#btn-playpause').text('Play (Spacebar)');
 		isPlaying = false;
 	} else {
-		timerWindow.postMessage('play', '*');
-		$('#btn-playpause').html('Pause (Spacebar)');
+		if(!external) timerWindow.postMessage('play', '*');
+		$('#btn-playpause').text('Pause (Spacebar)');
 		isPlaying = true;
 	}
 }
 
+handlePlayPauseInternal = function() {
+	return handlePlayPause(false);
+}
+
+handlePlayPauseExternal = function() {
+	return handlePlayPause(true);
+}
+
 handleStop = function() {
-	$('#btn-playpause').html('Play (Spacebar)');
+	$('#btn-playpause').text('Play (Spacebar)');
 	$("#options").prop('hidden', false);
 	$("#controls").prop('hidden', true);
 	timerWindow.close();
@@ -90,7 +99,7 @@ start = function() {
 	if(!options.showSec) params.showSec = 1;
 	if(options.recolourLast15) params.recolour15 = 1;
 
-	timerWindow = window.open('timer.html?' + $.param(params), 'timerWindow', '_open');
+	timerWindow = window.open('src/timer.html?' + $.param(params), 'timerWindow', '_open');
 	if (timerWindow.outerWidth < screen.availWidth || timerWindow.outerHeight < screen.availHeight) {
 		timerWindow.moveTo(0,0);
 		timerWindow.resizeTo(screen.availWidth, screen.availHeight);
@@ -99,21 +108,31 @@ start = function() {
 	timerWindow.focus();
 
 	isPlaying = options.countdown != 'defer';
-	if(isPlaying) $('#btn-playpause').html('Pause (Spacebar)');
-	else $('#btn-playpause').html('Play (Spacebar)');
+	if(isPlaying) $('#btn-playpause').text('Pause (Spacebar)');
+	else $('#btn-playpause').text('Play (Spacebar)');
 	
 }
 
 $( document ).ready(function() {
+
+	$('#row-music').prop('hidden', true);
+
+	$('#audio-test').on('loadeddata', function() {
+		$('#row-music').prop('hidden', false);
+	});
+
+	$('#audio-test').attr('src', 'music/last15.mp3');
+
 	localStorage = window.localStorage;
 	restoreDefaultOptions();
-	$('#btn-playpause').bind('click', handlePlayPause);
+
+	$('#btn-playpause').bind('click', handlePlayPauseInternal);
 	$('#btn-stop').bind('click', handleStop);
 
 	$('body').keydown(function(event) {
 		if(!isStopped) switch(event.which) {
 			case 32:
-				handlePlayPause();
+				handlePlayPauseInternal();
 				break;
 
 			case 83:
@@ -126,7 +145,7 @@ $( document ).ready(function() {
 
 	$( window ).on('message', function(event) {
 		if(!isStopped) {
-			if(event.originalEvent.data == 'playpause') handlePlayPause();
+			if(event.originalEvent.data == 'playpause') handlePlayPauseExternal();
 			if(event.originalEvent.data == 'stop') handleStop();
 		}
 	});

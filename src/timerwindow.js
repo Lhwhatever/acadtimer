@@ -43,10 +43,13 @@ yieldLoopFunction = function() {
 }
 
 handlePlayPause = function() {
+	console.log('playpause');
 	if(startTime == null) { // was paused
+		console.log('play');
 		startTime = Date.now();
 		renderLoop = setInterval(yieldLoopFunction(), renderInterval);
 	} else { // was playing
+		console.log('pause');
 		clearInterval(renderLoop);
 		startCount += (Date.now() - startTime) / 1000;
 		startTime = null;
@@ -56,7 +59,7 @@ handlePlayPause = function() {
 endTimer = function() {
 	clearInterval(renderLoop);
 	startTime = null;
-	$('#time').html('Time\'s Up!');
+	$('#time').text('Time\'s Up!');
 }
 
 setupFontSizes = function() {
@@ -77,11 +80,11 @@ $(document).ready(function() {
 
 	var text1 = getUrlParam('text1');
 	if(text1 == null) $('#text1').remove()
-	else $('#text1').html(text1);
+	else $('#text1').text(text1);
 
 	var text2 = getUrlParam('text2');
 	if(text2 == null) $('#text2').remove()
-	else $('#text2').html(text2);
+	else $('#text2').text(text2);
 
 	setup();
 	setupFontSizes();
@@ -111,7 +114,8 @@ $(document).ready(function() {
 	}
 
 	$(window).on('message', function(event) {
-		if(event.originalEvent.data == 'playpause') handlePlayPause();
+		console.log(event.originalEvent.data);
+		if(event.originalEvent.data == 'play' || event.originalEvent.data == 'pause') handlePlayPause();
 	});
 
 	$('body').keypress(function(event) {
