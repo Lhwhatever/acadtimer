@@ -6,6 +6,7 @@ var startTime;
 var recolourLast15;
 var alertLast15;
 var timeout15;
+var timeoutStart;
 var canPlayMusic;
 
 playMusic = __;
@@ -50,8 +51,9 @@ yieldLast15 = function() {
 handlePlayPause = function() {
 	if(startTime == null) { // was paused
 		startTime = Date.now();
+		var counter = getCounter();
 
-		timeTillLast15 = (duration - getCounter() - 900) * 1000;
+		timeTillLast15 = (duration - counter - 900) * 1000;
 		if(timeTillLast15 > 0) timeout15 = setTimeout(yieldLast15(), timeTillLast15);
 
 		renderLoop = setInterval(function() {
@@ -60,7 +62,10 @@ handlePlayPause = function() {
 			else endTimer();
 		}, renderInterval);
 
-		playMusic();
+		if(counter >= 0) playMusic();
+		else {
+			timeoutStart = setTimeout(playMusic, -1000 * counter);
+		}
 
 	} else { // was playing
 		if(timeout15 !== null) {
@@ -72,6 +77,7 @@ handlePlayPause = function() {
 		startTime = null;
 
 		pauseMusic();
+		clearTimeout(timeoutStart);
 	}
 }
 
@@ -182,7 +188,6 @@ $(document).ready(function() {
 	}
 
 	$(window).on('message', function(event) {
-		console.log(event.originalEvent.data);
 		if(event.originalEvent.data == 'play' || event.originalEvent.data == 'pause') handlePlayPause();
 	});
 
